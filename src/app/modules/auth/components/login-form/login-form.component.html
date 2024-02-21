@@ -13,6 +13,11 @@
         <fa-icon [icon]="faPen"></fa-icon>
       </button>
     </div>
+    <div *ngIf="status === 'failed'">
+      <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+        This email is not registered
+      </p>
+    </div>
     <div *ngIf="form.controls.email.touched && form.controls.email.invalid">
       <p
         *ngIf="form.controls.email.hasError('required')"
@@ -26,6 +31,7 @@
       >
         This field should be a email
       </p>
+
     </div>
   </div>
   <div>
