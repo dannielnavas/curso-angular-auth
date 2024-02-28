@@ -23,4 +23,15 @@ export class AuthService {
       password,
     });
   }
+
+  recovery(email: string) {
+    return this.http.post(`${environment.API_URL}/api/v1/auth/recovery`, email);
+  }
+
+  changePassword(password: string, token: string) {
+    return this.http.post(`${environment.API_URL}/api/v1/auth/change-password`, {
+      password,
+      token,
+    });
+  }
 }
