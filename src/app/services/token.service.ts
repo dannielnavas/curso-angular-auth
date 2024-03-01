@@ -6,7 +6,7 @@ import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 })
 export class TokenService {
   saveToken(token: string) {
-    setCookie('token', token);
+    setCookie('token', token, { expires: 1, path: '/' });
   }
 
   getToken() {
