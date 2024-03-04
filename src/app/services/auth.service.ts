@@ -41,7 +41,7 @@ export class AuthService {
 
   profile(email: string) {
     const token = this.tokenService.getToken();
-    return this.http.get(`${environment.API_URL}/api/v1/profile`, {
+    return this.http.get(`${environment.API_URL}/api/v1/auth/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
