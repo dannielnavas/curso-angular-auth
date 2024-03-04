@@ -20,6 +20,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.tokenService.saveToken(response.access_token);
+          this.tokenService.saveRefreshToken(response.refresh_token);
         })
       );
   }
@@ -36,6 +37,15 @@ export class AuthService {
 
   recovery(email: string) {
     return this.http.post(`${environment.API_URL}/api/v1/auth/recovery`, email);
+  }
+
+  profile(email: string) {
+    const token = this.tokenService.getToken();
+    return this.http.get(`${environment.API_URL}/api/v1/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   changePassword(password: string, token: string) {
