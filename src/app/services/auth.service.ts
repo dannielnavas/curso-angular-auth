@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { ResponseLogin } from '@models/auth.model';
-import { switchMap, tap } from 'rxjs';
+import { BehaviorSubject, switchMap, tap } from 'rxjs';
 import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  user$ = new BehaviorSubject<any>(null); // Guarda el perfil del usuario de forma reactiva
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   login(email: string, password: string) {
@@ -41,11 +42,13 @@ export class AuthService {
 
   profile() {
     const token = this.tokenService.getToken();
-    return this.http.get(`${environment.API_URL}/api/v1/auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    return this.http
+      .get(`${environment.API_URL}/api/v1/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .pipe(tap((user) => this.user$.next(user)));
   }
 
   changePassword(password: string, token: string) {
