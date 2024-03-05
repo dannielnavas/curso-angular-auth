@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { checkToken } from '@interceptors/token.interceptor';
 import { ResponseLogin } from '@models/auth.model';
 import { BehaviorSubject, switchMap, tap } from 'rxjs';
 import { TokenService } from './token.service';
@@ -44,9 +45,7 @@ export class AuthService {
     const token = this.tokenService.getToken();
     return this.http
       .get(`${environment.API_URL}/api/v1/auth/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        context: checkToken(),
       })
       .pipe(tap((user) => this.user$.next(user)));
   }
