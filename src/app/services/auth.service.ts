@@ -39,7 +39,7 @@ export class AuthService {
     return this.http.post(`${environment.API_URL}/api/v1/auth/recovery`, email);
   }
 
-  profile(email: string) {
+  profile() {
     const token = this.tokenService.getToken();
     return this.http.get(`${environment.API_URL}/api/v1/auth/profile`, {
       headers: {
