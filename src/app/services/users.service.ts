@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { checkToken } from '@interceptors/token.interceptor';
 import { TokenService } from './token.service';
 
 @Injectable({
@@ -12,9 +13,7 @@ export class UsersService {
 
   getUsers() {
     return this.http.get(`${this.apiUrl}/api/v1/users`, {
-      headers: {
-        Authorization: `Bearer ${this.tokenService.getToken()}`,
-      },
+      context: checkToken(),
     });
   }
 }
