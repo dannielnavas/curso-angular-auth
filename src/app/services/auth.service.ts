@@ -60,6 +60,19 @@ export class AuthService {
     );
   }
 
+  refreshToken(refreshToken: string) {
+    return this.http
+      .post<ResponseLogin>(`${environment.API_URL}/api/v1/auth/refresh-token`, {
+        refreshToken,
+      })
+      .pipe(
+        tap((response) => {
+          this.tokenService.saveToken(response.access_token);
+          this.tokenService.saveRefreshToken(response.refresh_token);
+        })
+      );
+  }
+
   logout() {
     this.tokenService.removeToken();
   }
