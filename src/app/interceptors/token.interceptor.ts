@@ -9,6 +9,7 @@ import {
 import { Injectable } from '@angular/core';
 import { TokenService } from '@services/token.service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 const CHECK_TOKEN = new HttpContextToken<boolean>(() => false);
 
@@ -18,7 +19,10 @@ export function checkToken() {
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private tokenServices: TokenService) {}
+  constructor(
+    private tokenServices: TokenService,
+    private authService: AuthService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
